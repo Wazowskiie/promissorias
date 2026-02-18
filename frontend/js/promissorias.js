@@ -581,12 +581,11 @@ async function carregarResumoPagamentos() {
 
   });
 
-  document.getElementById("pagamentosEmDia").textContent =
-    formatarMoeda(totalEmDia);
+  const elEmDia = document.getElementById("pagamentosEmDia");
+const elAtrasado = document.getElementById("pagamentosAtrasados");
 
-  document.getElementById("pagamentosAtrasados").textContent =
-    formatarMoeda(totalAtrasado);
-}
+if (elEmDia) elEmDia.textContent = formatarMoeda(totalEmDia);
+if (elAtrasado) elAtrasado.textContent = formatarMoeda(totalAtrasado);}
 
 
 // utilitário moeda
