@@ -132,9 +132,9 @@ function montarGraficoLinha(dados) {
   const mapa = {};
 
   dados.forEach(p => {
-    if (p.status === 'paga' && p.data_pagamento) {
-      const chave = mesAno(p.data_pagamento);
-      mapa[chave] = (mapa[chave] || 0) + Number(p.valor_total || 0);
+    if (p.status === 'paga' && p.data_vencimento) {
+      const chave = mesAno(p.data_vencimento);
+      mapa[chave] = (mapa[chave] || 0) + Number(p.valor_pago || 0);
     }
   });
 
