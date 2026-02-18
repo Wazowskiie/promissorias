@@ -3,6 +3,7 @@ let promissoriaEditandoId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   carregarPromissorias();
+  carregarResumoPagamentos();
 });
 
 // =============================
@@ -553,10 +554,6 @@ async function pagarParcela(parcelaId, promissoriaId) {
     alert("Erro ao processar pagamento");
   }
 }
-
-ocument.addEventListener("DOMContentLoaded", () => {
-  carregarResumoPagamentos();
-});
 
 async function carregarResumoPagamentos() {
 
