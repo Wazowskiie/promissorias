@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+
+  <link rel="stylesheet" href="../css/graficos.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item active">📊 Dashboard</a>
+      <a href="promissorias.html" class="nav-item">📄 Promissórias</a>
+      <a href="pagamentos.html" class="nav-item">💰 Pagamentos</a>
+      <a href="relatorios.html" class="nav-item">📈 Relatórios</a>
+      <a href="clientes.html" class="nav-item">👥 Clientes</a>
+    </nav>
+  </aside>
+
+  
+  <!-- CONTEÚDO -->
+  <main class="main-content">
+    
+<div class="filtros-dashboard">
+  <select id="filtroMes">
+    <option value="">Todos os meses</option>
+    <option value="0">Janeiro</option>
+    <option value="1">Fevereiro</option>
+    <option value="2">Março</option>
+    <option value="3">Abril</option>
+    <option value="4">Maio</option>
+    <option value="5">Junho</option>
+    <option value="6">Julho</option>
+    <option value="7">Agosto</option>
+    <option value="8">Setembro</option>
+    <option value="9">Outubro</option>
+    <option value="10">Novembro</option>
+    <option value="11">Dezembro</option>
+  </select>
+
+  <select id="filtroAno"></select>
+
+  <button id="btnFiltrar">Filtrar</button>
+</div>
+
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">Visão geral dos pagamentos</p>
+
+    <div class="dashboard-grid">
+
+      <div class="chart-card">
+        <h3>Status das Promissórias</h3>
+        <div class="chart-wrapper">
+          <canvas id="graficoPizza"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h3>Pagamentos por mês</h3>
+        <div class="chart-wrapper">
+          <canvas id="graficoLinha"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+  <h3>Valores em aberto (Top 10)</h3>
+  <div class="chart-wrapper">
+    <canvas id="graficoBarras"></canvas>
+  </div>
+</div>
+
+      <div class="chart-card">
+        <h3>Atrasadas vs Em dia</h3>
+        <div class="chart-wrapper">
+          <canvas id="graficoHorizontal"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+.relatorios-container {
+  padding: 30px;
+}
+
+/* ========================= */
+/* TÍTULO */
+/* ========================= */
+
+.relatorios-container h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* ========================= */
+/* FILTROS */
+/* ========================= */
+
+.filtros-relatorio {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+/* Campo de período */
+#periodo {
+  width: 280px;
+  height: 46px;
+  padding: 0 16px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Select vendedor */
+#filtroVendedorRelatorio {
+  width: 220px;
+  height: 46px;
+  padding: 0 16px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Botões */
+.filtros-relatorio button {
+  height: 46px;
+  padding: 0 20px;
+  font-size: 15px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.relatorios-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hover nos botões */
+.filtros-relatorio button {
+  background: #2563eb; /* azul moderno */
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.filtros-relatorio button:hover {
+  background: #1e40af;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Hover no select */
+#filtroVendedorRelatorio {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+#filtroVendedorRelatorio:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+/* ========================= */
+/* CARDS RESUMO */
+/* ========================= */
+
+.cards-resumo {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.card {
+  flex: 1;
+  min-width: 250px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+.card p {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.verde {
+  color: #16a34a;
+}
+
+.vermelho {
+  color: #dc2626;
+}
+
+/* ========================= */
+/* TABELAS */
+/* ========================= */
+
+.tabela-relatorio {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+}
+
+.tabela-relatorio thead {
+  background: #f3f4f6;
+}
+
+.tabela-relatorio th,
+.tabela-relatorio td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tabela-relatorio th {
+  font-weight: 600;
+}
+
+.tabela-relatorio tr:hover {
+  background: #f9fafb;
+}
+
+/* ========================= */
+/* SUBTÍTULOS */
+/* ========================= */
+
+.relatorios-container h2 {
+  margin: 30px 0 15px;
+  font-size: 20px;
+}
+
+.campo.grande {
+  min-width: 320px;
+  padding: 12px 16px;
+  font-size: 16px;
+}
+
+.campo.grande input {
+  font-size: 16px;
+}
+
+
+#periodo {
+  min-width: 320px;
+}
+
+#filtroVendedorRelatorio {
+  min-width: 220px;
+}
+
+.filtros-relatorio button {
+  min-width: 140px;
+}
+
+body {
+  background: #f9fafb; /* branco suave profissional */
+}
+
+.flatpickr-day.selected {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.flatpickr-day.inRange {
+  background: rgba(59,130,246,0.15);
+}

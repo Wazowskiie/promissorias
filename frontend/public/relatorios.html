@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Relatórios</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/relatorios.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+
+  <div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item active">📊 Dashboard</a>
+      <a href="promissorias.html" class="nav-item">📄 Promissórias</a>
+      <a href="pagamentos.html" class="nav-item">💰 Pagamentos</a>
+      <a href="relatorios.html" class="nav-item">📈 Relatórios</a>
+      <a href="clientes.html" class="nav-item">👥 Clientes</a>
+    </nav>
+  </aside>
+
+  
+<div class="container">
+ <div class="relatorios-container">
+
+  <h1>Relatórios</h1>
+
+  <!-- FILTROS -->
+  <div class="filtros-relatorio">
+
+  <div class="campo grande">
+  <span>📅</span>
+  <input type="text" id="periodo" placeholder="Selecione o período">
+</div>
+
+  <div class="campo">
+    <span>👤</span>
+    <select id="filtroVendedorRelatorio">
+      <option value="">Todos os vendedores</option>
+    </select>
+  </div>
+
+  <button class="btn-filtrar" onclick="carregarRelatorio()">
+  🔎 Filtrar
+</button>
+
+  <button class="btn-exportar" onclick="exportarCSV()">
+  📤 Exportar CSV
+</button>
+
+</div>
+
+  <!-- RESUMO FINANCEIRO -->
+  <div class="cards-resumo">
+    <div class="card">
+  <h3>💼 Total Vendido</h3>
+  <p id="totalVendido">R$ 0,00</p>
+</div>
+
+<div class="card">
+  <h3>💵 Total Recebido</h3>
+  <p id="totalRecebido" class="verde">R$ 0,00</p>
+</div>
+
+<div class="card">
+  <h3>⚠️ Total em Aberto</h3>
+  <p id="totalAberto" class="vermelho">R$ 0,00</p>
+</div>
+  </div>
+
+  <!-- RANKING VENDEDORES -->
+  <h2>Ranking de Vendedores</h2>
+  <table class="tabela-relatorio">
+    <thead>
+      <tr>
+        <th>Vendedor</th>
+        <th>Total Vendido</th>
+        <th>Total Recebido</th>
+      </tr>
+    </thead>
+    <tbody id="rankingVendedores"></tbody>
+  </table>
+
+  <!-- CLIENTES MAIOR DÍVIDA -->
+  <h2>Clientes com Maior Dívida</h2>
+  <table class="tabela-relatorio">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Em Aberto</th>
+      </tr>
+    </thead>
+    <tbody id="clientesDevedores"></tbody>
+  </table>
+
+  
+
+</div>
+
+  <canvas id="graficoPagamentos"></canvas>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="../js/relatorios.js"></script>
+</body>
+</html>
+

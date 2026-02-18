@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pagamentos</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/pagamentos.css" />
+</head>
+<body>
+<div class="app-layout">
+
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item active">📊 Dashboard</a>
+      <a href="promissorias.html" class="nav-item">📄 Promissórias</a>
+      <a href="pagamentos.html" class="nav-item">💰 Pagamentos</a>
+      <a href="relatorios.html" class="nav-item">📈 Relatórios</a>
+      <a href="clientes.html" class="nav-item">👥 Clientes</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="header">
+        <h1>Pagamentos</h1>
+        <p class="subtitle">Em dia × Atrasados</p>
+      </header>
+
+      <div class="dashboard">
+        <div class="card"><p>Pagamentos em dia</p>
+        <h2 id="pagamentosEmDia">R$ 0,00</h2>
+      </div>
+        <div class="card"><p>Pagamentos atrasados</p>
+        <h2 id="pagamentosAtrasados">R$ 0,00</h2>
+      </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="../js/pagamentos.js"></script>
+</body>
+</html>

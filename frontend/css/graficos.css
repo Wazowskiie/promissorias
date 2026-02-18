@@ -1,0 +1,146 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, Arial, sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+/* LAYOUT */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR (BRANCA) */
+.sidebar {
+  width: 230px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px 16px;
+  position: fixed;
+  inset: 0 auto 0 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #374151;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.nav-item:hover {
+  background: #f1f5f9;
+}
+
+.nav-item.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* CONTEÚDO */
+.main-content {
+  margin-left: 230px;
+  padding: 32px;
+  width: calc(100% - 230px);
+}
+
+/* TÍTULOS */
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+/* GRID DE GRÁFICOS */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+/* CARD */
+.chart-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  height: 380px;              /* 🔥 altura fixa */
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* CONTAINER DO CANVAS */
+.chart-card canvas {
+  flex: 1;                    /* 🔥 ocupa o espaço certinho */
+  max-height: 300px;
+}
+
+/*FILTROS */
+.filtros-dashboard {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.filtros-dashboard select,
+.filtros-dashboard button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-size: 14px;
+}
+
+.filtros-dashboard button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.filtros-dashboard button:hover {
+  background: #1d4ed8;
+}
+
+.chart-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 12px 25px rgba(0,0,0,.06);
+  min-height: 340px;
+}
+
+.chart-card canvas {
+  height: 260px !important;
+}
+
+.chart-card {
+  height: 360px;
+}
+
+.chart-card canvas {
+  height: 260px !important;
+}
