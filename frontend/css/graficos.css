@@ -6,99 +6,143 @@
 }
 
 body {
-  font-family: Inter, Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   background: #f5f7fb;
   color: #1f2937;
 }
 
-/* LAYOUT */
 .app-layout {
   display: flex;
   min-height: 100vh;
 }
 
-/* SIDEBAR (BRANCA) */
+/* SIDEBAR */
 .sidebar {
   width: 230px;
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
-  padding: 24px 16px;
+  background: #CC0000;
+  padding: 0 0 24px 0;
   position: fixed;
   inset: 0 auto 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 14px 12px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.sidebar-logo img {
+  width: 170px;
+  height: auto;
+  object-fit: contain;
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+  padding: 16px 12px;
+  flex: 1;
 }
 
 .nav-item {
   text-decoration: none;
-  color: #374151;
-  padding: 12px 14px;
+  color: rgba(255,255,255,0.85);
+  padding: 11px 14px;
   border-radius: 8px;
   font-weight: 500;
+  font-size: 14px;
   transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .nav-item:hover {
-  background: #f1f5f9;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
 }
 
 .nav-item.active {
-  background: #2563eb;
-  color: #fff;
+  background: #fff;
+  color: #CC0000;
+  font-weight: 600;
+}
+
+.sidebar-footer {
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  text-align: center;
+}
+
+.sidebar-footer p {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
 }
 
 /* CONTEÚDO */
 .main-content {
   margin-left: 230px;
-  padding: 32px;
+  padding: 28px 32px;
   width: calc(100% - 230px);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* TÍTULOS */
 .page-title {
   font-size: 28px;
   font-weight: 700;
+  color: #1f2937;
 }
 
 .page-subtitle {
   color: #6b7280;
   margin-bottom: 24px;
+  font-size: 14px;
 }
 
-/* GRID DE GRÁFICOS */
+/* GRID */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  gap: 22px;
+  flex: 1;
 }
 
-/* CARD */
 .chart-card {
   background: #fff;
-  border-radius: 16px;
+  border-radius: 14px;
   padding: 20px;
-  height: 380px;              /* 🔥 altura fixa */
+  height: 360px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 
 .chart-card h3 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  color: #1f2937;
 }
 
-/* CONTAINER DO CANVAS */
-.chart-card canvas {
-  flex: 1;                    /* 🔥 ocupa o espaço certinho */
-  max-height: 300px;
+.chart-wrapper {
+  flex: 1;
+  position: relative;
 }
 
-/*FILTROS */
+.chart-wrapper canvas {
+  position: absolute;
+  inset: 0;
+}
+
+/* FILTROS */
 .filtros-dashboard {
   display: flex;
   gap: 12px;
@@ -109,38 +153,32 @@ body {
 .filtros-dashboard button {
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1.5px solid #e5e7eb;
   background: #fff;
   font-size: 14px;
-}
-
-.filtros-dashboard button {
-  background: #2563eb;
-  color: #fff;
-  border: none;
+  color: #374151;
   cursor: pointer;
 }
 
+.filtros-dashboard button {
+  background: #CC0000;
+  color: #fff;
+  border-color: #CC0000;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
 .filtros-dashboard button:hover {
-  background: #1d4ed8;
+  background: #aa0000;
 }
 
-.chart-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 12px 25px rgba(0,0,0,.06);
-  min-height: 340px;
-}
-
-.chart-card canvas {
-  height: 260px !important;
-}
-
-.chart-card {
-  height: 360px;
-}
-
-.chart-card canvas {
-  height: 260px !important;
+/* RODAPÉ */
+.main-footer {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 1.6;
 }

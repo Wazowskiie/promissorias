@@ -8,9 +8,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   montarGraficoPizza(promissorias);
   montarGraficoLinha(promissorias);
-  montarGraficoBarras(promissorias);
-  montarGraficoHorizontal(promissorias);
   montarGraficoValoresEmAberto(promissorias);
+  montarGraficoHorizontal(promissorias);
 });
 
 /* =========================
@@ -50,7 +49,7 @@ btnFiltrar.addEventListener('click', async () => {
 
   const filtradas = promissorias.filter(p => {
     if (!p.data_vencimento) return false;
-    const d = new Date(p.data_vencimento);
+    const d = new Date(p.data_vencimento + 'T00:00:00');
     if (mes !== '' && d.getMonth() != mes) return false;
     if (ano !== '' && d.getFullYear() != ano) return false;
     return true;
@@ -58,11 +57,12 @@ btnFiltrar.addEventListener('click', async () => {
 
   montarGraficoPizza(filtradas);
   montarGraficoLinha(filtradas);
-  montarGraficoBarras(filtradas);
+  montarGraficoValoresEmAberto(filtradas);
   montarGraficoHorizontal(filtradas);
 });
 
 popularAnos();
+
 /* =========================
    UTILIDADES
 ========================= */
@@ -73,8 +73,10 @@ function formatarMoeda(valor) {
   }).format(valor || 0);
 }
 
-function mesAno(date) {
-  return new Date(date).toLocaleDateString('pt-BR', {
+function mesAno(dateStr) {
+  // Corrige bug de fuso: força leitura como data local
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('pt-BR', {
     month: 'short',
     year: 'numeric'
   });
@@ -90,10 +92,8 @@ function irParaPromissorias(filtro) {
 ========================= */
 function montarGraficoPizza(dados) {
   const ctx = document.getElementById('graficoPizza');
-
   const contagem = { pendente: 0, vencida: 0, paga: 0 };
 
-  
   dados.forEach(p => {
     if (contagem[p.status] !== undefined) contagem[p.status]++;
   });
@@ -109,17 +109,17 @@ function montarGraficoPizza(dados) {
         backgroundColor: ['#facc15', '#ef4444', '#22c55e']
       }]
     },
-   options: {
-  onClick: (evt, elements) => {
-    if (!elements.length) return;
-    const index = elements[0].index;
-    const status = ['pendente', 'vencida', 'paga'][index];
-    irParaPromissorias({ status });
-  },
-  plugins: {
-    legend: { position: 'bottom' }
-  }
-}
+    options: {
+      onClick: (evt, elements) => {
+        if (!elements.length) return;
+        const index = elements[0].index;
+        const status = ['pendente', 'vencida', 'paga'][index];
+        irParaPromissorias({ status });
+      },
+      plugins: {
+        legend: { position: 'bottom' }
+      }
+    }
   });
 }
 
@@ -128,7 +128,6 @@ function montarGraficoPizza(dados) {
 ========================= */
 function montarGraficoLinha(dados) {
   const ctx = document.getElementById('graficoLinha');
-
   const mapa = {};
 
   dados.forEach(p => {
@@ -147,13 +146,15 @@ function montarGraficoLinha(dados) {
       datasets: [{
         label: 'Recebido no mês',
         data: Object.values(mapa),
-        borderColor: '#2563eb',
-        backgroundColor: 'rgba(37,99,235,0.15)',
+        borderColor: '#CC0000',
+        backgroundColor: 'rgba(204, 0, 0, 0.1)',
         fill: true,
         tension: 0.4
       }]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         tooltip: {
           callbacks: {
@@ -175,12 +176,11 @@ function montarGraficoLinha(dados) {
 /* =========================
    GRÁFICO BARRAS – TOP 10 EM ABERTO
 ========================= */
-function montarGraficoBarras(dados) {
+function montarGraficoValoresEmAberto(promissorias) {
   const ctx = document.getElementById('graficoBarras');
-
   const mapa = {};
 
-  dados.forEach(p => {
+  promissorias.forEach(p => {
     if (!p.cliente) return;
     mapa[p.cliente] = (mapa[p.cliente] || 0) + Number(p.valor_em_aberto || 0);
   });
@@ -190,43 +190,42 @@ function montarGraficoBarras(dados) {
     .sort((a, b) => b.valor - a.valor)
     .slice(0, 10);
 
-  graficoBarras?.destroy();
+  const labels = top10.map(c =>
+    c.cliente.length > 18 ? c.cliente.slice(0, 18) + '…' : c.cliente
+  );
+
+  if (graficoBarras) graficoBarras.destroy();
 
   graficoBarras = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: top10.map(i => i.cliente),
+      labels,
       datasets: [{
-        data: top10.map(i => i.valor),
-        backgroundColor: '#f97316',
+        label: 'Valor em aberto',
+        data: top10.map(c => c.valor),
+        backgroundColor: '#CC0000',
         borderRadius: 8,
-        barThickness: 20
+        maxBarThickness: 48
       }]
     },
     options: {
-      indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
         tooltip: {
           callbacks: {
+            title: items => top10[items[0].dataIndex].cliente,
             label: ctx => formatarMoeda(ctx.raw)
           }
         }
       },
       scales: {
-        x: {
-          ticks: {
-            callback: v => formatarMoeda(v)
-          }
-        },
         y: {
-          ticks: {
-            autoSkip: false,
-            font: { size: 11 }
-          }
-        }
+          ticks: { callback: v => formatarMoeda(v) },
+          grid: { color: '#e5e7eb' }
+        },
+        x: { grid: { display: false } }
       }
     }
   });
@@ -244,16 +243,13 @@ function montarGraficoHorizontal(promissorias) {
 
   promissorias.forEach(p => {
     if (p.status === 'paga') return;
-
-    const vencimento = new Date(p.data_vencimento);
+    const vencimento = new Date(p.data_vencimento + 'T00:00:00');
     vencimento.setHours(0, 0, 0, 0);
-
     if (vencimento < hoje) atrasadas++;
     else emDia++;
   });
 
   const ctx = document.getElementById('graficoHorizontal');
-
   if (graficoHorizontal) graficoHorizontal.destroy();
 
   graficoHorizontal = new Chart(ctx, {
@@ -267,7 +263,7 @@ function montarGraficoHorizontal(promissorias) {
       }]
     },
     options: {
-      indexAxis: 'y', // 🔥 ISSO DEIXA DEITADO
+      indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
@@ -279,74 +275,7 @@ function montarGraficoHorizontal(promissorias) {
         }
       },
       scales: {
-        x: {
-          ticks: { precision: 0 }
-        }
-      }
-    }
-  });
-}
-
-function montarGraficoValoresEmAberto(promissorias) {
-  const ctx = document.getElementById('graficoBarras');
-
-  // 🔹 Soma valor em aberto por cliente
-  const mapa = {};
-  promissorias.forEach(p => {
-    if (!p.cliente) return;
-    mapa[p.cliente] = (mapa[p.cliente] || 0) + Number(p.valor_em_aberto || 0);
-  });
-
-  // 🔹 Top 5
-  const top5 = Object.entries(mapa)
-    .map(([cliente, valor]) => ({ cliente, valor }))
-    .sort((a, b) => b.valor - a.valor)
-    .slice(0, 5);
-
-  const labels = top5.map(c =>
-    c.cliente.length > 18
-      ? c.cliente.slice(0, 18) + '…'
-      : c.cliente
-  );
-
-  const valores = top5.map(c => c.valor);
-
-  if (graficoBarras) graficoBarras.destroy();
-
-  graficoBarras = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Valor em aberto',
-        data: valores,
-        backgroundColor: '#f97316',
-        borderRadius: 10,
-        maxBarThickness: 48
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            title: (items) => top5[items[0].dataIndex].cliente,
-            label: (ctx) => formatarMoeda(ctx.raw)
-          }
-        }
-      },
-      scales: {
-        y: {
-          ticks: {
-            callback: value => formatarMoeda(value)
-          },
-          grid: { color: '#e5e7eb' }
-        },
-        x: {
-          grid: { display: false }
-        }
+        x: { ticks: { precision: 0 } }
       }
     }
   });
