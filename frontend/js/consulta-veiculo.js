@@ -1,12 +1,7 @@
 // ============================================================
-// CONSULTA VEICULAR – Consultar Placa API
-// ⚠️ TROQUE AS CREDENCIAIS ABAIXO APÓS GERAR NOVA API KEY
+// CONSULTA VEICULAR – via Supabase Edge Function (sem CORS)
 // ============================================================
-const CP_EMAIL  = 'isabelandrade965@gmail.com';
-const CP_APIKEY = '0f547c58886e82a0a69635f7aa4614a5'; // ← troque aqui após gerar nova key
-
-const CP_BASE   = 'https://api.consultarplaca.com.br/v2';
-const CP_AUTH   = 'Basic ' + btoa(`${CP_EMAIL}:${CP_APIKEY}`);
+const EDGE_FUNCTION_URL = 'https://ljhevlfzcaxyogpwajfp.supabase.co/functions/v1/consulta-veiculo';
 
 // ============================================================
 // ABRE MODAL DE CONSULTA
@@ -28,13 +23,16 @@ async function consultarVeiculo(placa) {
     </div>`;
 
   try {
-    // Faz as duas consultas em paralelo
-    const [resBasica, resMultas] = await Promise.all([
-      fetchConsulta(`${CP_BASE}/consultarPlaca?placa=${placa}`),
-      fetchConsulta(`${CP_BASE}/consultarRegistrosInfracoesRenainf?placa=${placa}`)
-    ]);
+    const res = await fetch(EDGE_FUNCTION_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ placa })
+    });
 
-    renderConsulta(placa, resBasica, resMultas);
+    const dados = await res.json();
+    if (dados.error) throw new Error(dados.error);
+
+    renderConsulta(placa, dados.basica, dados.multas);
 
   } catch (err) {
     corpo.innerHTML = `
@@ -42,17 +40,6 @@ async function consultarVeiculo(placa) {
         <p>❌ Erro ao consultar: ${err.message}</p>
       </div>`;
   }
-}
-
-// ============================================================
-// FETCH GENÉRICO COM AUTH
-// ============================================================
-async function fetchConsulta(url) {
-  const res = await fetch(url, {
-    headers: { 'Authorization': CP_AUTH }
-  });
-  if (!res.ok) throw new Error(`Erro ${res.status} na consulta`);
-  return res.json();
 }
 
 // ============================================================
