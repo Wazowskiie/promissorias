@@ -336,7 +336,7 @@ function abrirModalNova() {
   document.getElementById('vendedor').value = '';
   document.getElementById('valorPago').value = '';
   document.getElementById('observacoes').value = '';
-  document.querySelector('#modalEditar h3').textContent = 'Nova Promissória';
+  document.getElementById('modalTitulo').textContent = 'Nova promissória';
   document.getElementById('modalEditar').classList.remove('hidden');
 }
 
