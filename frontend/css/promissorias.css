@@ -434,3 +434,21 @@ body {
   color: #6b7280;
   line-height: 1;
 }
+
+/* ===== MODAL PARCELAS ===== */
+.modal-parcelas {
+  max-height: 85vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.modal-parcelas .modal-body {
+  overflow-y: auto !important;
+  flex: 1 !important;
+  max-height: 60vh !important;
+}
+
+.status-avencer {
+  background: #dbeafe;
+  color: #1e40af;
+}

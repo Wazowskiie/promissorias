@@ -71,6 +71,20 @@ async function abrirParcelas(promissoriaId) {
 
     if (error) throw error;
 
+    // Mostrar observações se existirem
+    const prom = promissorias.find(p => p.id === promissoriaId);
+    const obsEl = document.getElementById('modalParcelasObs');
+    const tituloEl = document.getElementById('modalParcelasCliente');
+    if (prom) {
+      if (tituloEl) tituloEl.textContent = `Parcelas — ${prom.cliente || 'Cliente'}`;
+      if (obsEl && prom.observacoes) {
+        obsEl.textContent = `Obs: ${prom.observacoes}`;
+        obsEl.style.display = 'block';
+      } else if (obsEl) {
+        obsEl.style.display = 'none';
+      }
+    }
+
     renderizarParcelas(data);
     document.getElementById("modalParcelas").classList.remove("hidden");
 
@@ -100,6 +114,8 @@ function renderizarParcelas(parcelas) {
     if (p.status !== "paga" && vencimento < hoje) {
       diasAtraso = Math.floor((hoje - vencimento) / (1000 * 60 * 60 * 24));
       statusFinal = "vencida";
+    } else if (p.status !== "paga" && vencimento >= hoje) {
+      statusFinal = "avencer";
     }
 
     return `
@@ -111,7 +127,11 @@ function renderizarParcelas(parcelas) {
         </div>
         <div>
           <div style="font-weight:600; margin-bottom:6px;">${formatarMoeda(p.valor)}</div>
-          <span class="parcela-status status-${statusFinal}">${statusFinal.toUpperCase()}</span>
+          <span class="parcela-status status-${statusFinal}">${
+            statusFinal === 'avencer' ? 'A VENCER' :
+            statusFinal === 'vencida' ? 'VENCIDA' :
+            statusFinal === 'paga' ? 'PAGA' : 'PENDENTE'
+          }</span>
           ${statusFinal !== "paga"
             ? `<button class="btn-pagar-parcela" onclick="pagarParcela('${p.id}', '${p.promissoria_id}')">Pagar</button>`
             : ""}

@@ -80,10 +80,20 @@
 </div>
 
 <div id="modalParcelas" class="modal hidden">
-  <div class="modal-content">
-    <h3>Parcelas do Cliente</h3>
-    <div id="listaParcelas"></div>
-    <button class="modal-close" onclick="fecharModal()">Fechar</button>
+  <div class="modal-content modal-parcelas">
+    <div class="modal-header">
+      <div class="modal-header-info">
+        <h3 id="modalParcelasCliente">Parcelas do Cliente</h3>
+        <p id="modalParcelasObs" style="display:none;color:#6b7280;font-size:13px;margin:4px 0 0;"></p>
+      </div>
+      <button class="modal-close-btn" onclick="fecharModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="listaParcelas"></div>
+    </div>
+    <div style="padding:12px 24px;border-top:1px solid #e5e7eb;">
+      <button class="modal-close" onclick="fecharModal()">Fechar</button>
+    </div>
   </div>
 </div>
 
@@ -142,6 +152,6 @@
     <div id="consultaCorpo"></div>
   </div>
 </div>
-<script src="../js/consulta_veiculo.js"></script>
+<script src="../js/consulta-veiculo.js"></script>
 </body>
 </html>
