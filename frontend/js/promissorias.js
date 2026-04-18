@@ -363,14 +363,23 @@ function abrirModalNova() {
 // =============================
 // GERAR PARCELAS
 // =============================
-function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraData) {
-  const valorBase = Math.floor((valorTotal / qtdParcelas) * 100) / 100;
+function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraData, valorParcelaManual) {
+  // Se o usuário informou valor da parcela, usa esse; senão divide automaticamente
+  const valorBase = valorParcelaManual
+    ? Number(valorParcelaManual)
+    : Math.floor((valorTotal / qtdParcelas) * 100) / 100;
+
   const parcelas = [];
   let soma = 0;
 
   for (let i = 1; i <= qtdParcelas; i++) {
     let valorParcela = valorBase;
-    if (i === qtdParcelas) valorParcela = Number((valorTotal - soma).toFixed(2));
+
+    // Só ajusta última parcela se estiver dividindo automaticamente
+    if (!valorParcelaManual && i === qtdParcelas) {
+      valorParcela = Number((valorTotal - soma).toFixed(2));
+    }
+
     soma += valorParcela;
 
     const data = new Date(primeiraData + 'T00:00:00');
