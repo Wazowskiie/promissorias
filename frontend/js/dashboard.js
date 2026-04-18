@@ -88,14 +88,31 @@ function irParaPromissorias(filtro) {
 }
 
 /* =========================
+   STATUS VISUAL (igual ao promissorias.js)
+========================= */
+function calcularStatusVisual(p) {
+  if (p.status === 'paga') return 'paga';
+  if (p.pendencia_documental) return 'pendente';
+
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  const venc = new Date(p.data_vencimento + 'T00:00:00');
+  venc.setHours(0, 0, 0, 0);
+
+  if (venc < hoje) return 'vencida';
+  return 'avencer';
+}
+
+/* =========================
    GRÁFICO PIZZA – STATUS
 ========================= */
 function montarGraficoPizza(dados) {
   const ctx = document.getElementById('graficoPizza');
-  const contagem = { pendente: 0, vencida: 0, paga: 0 };
+  const contagem = { avencer: 0, vencida: 0, paga: 0, pendente: 0 };
 
   dados.forEach(p => {
-    if (contagem[p.status] !== undefined) contagem[p.status]++;
+    const status = calcularStatusVisual(p);
+    if (contagem[status] !== undefined) contagem[status]++;
   });
 
   graficoPizza?.destroy();
@@ -103,19 +120,13 @@ function montarGraficoPizza(dados) {
   graficoPizza = new Chart(ctx, {
     type: 'pie',
     data: {
-      labels: ['Pendentes', 'Vencidas', 'Pagas'],
+      labels: ['A vencer', 'Vencidas', 'Pagas', 'Pendentes'],
       datasets: [{
-        data: Object.values(contagem),
-        backgroundColor: ['#facc15', '#ef4444', '#22c55e']
+        data: [contagem.avencer, contagem.vencida, contagem.paga, contagem.pendente],
+        backgroundColor: ['#3b82f6', '#ef4444', '#22c55e', '#facc15']
       }]
     },
     options: {
-      onClick: (evt, elements) => {
-        if (!elements.length) return;
-        const index = elements[0].index;
-        const status = ['pendente', 'vencida', 'paga'][index];
-        irParaPromissorias({ status });
-      },
       plugins: {
         legend: { position: 'bottom' }
       }
