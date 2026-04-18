@@ -330,7 +330,8 @@ async function salvarEdicao() {
 
       if (error) throw error;
 
-      const parcelas = gerarParcelas(novaPromissoria.id, valorTotal, qtdParcelas, dataVencimento);
+      const valorParcelaManual = parseFloat(document.getElementById("valorPago").value);
+      const parcelas = gerarParcelas(novaPromissoria.id, valorTotal, qtdParcelas, dataVencimento, (valorParcelaManual && valorParcelaManual > 0) ? valorParcelaManual : null);
 
       const { error: erroParcelas } = await supabaseClient.from("parcelas").insert(parcelas);
       if (erroParcelas) throw erroParcelas;
