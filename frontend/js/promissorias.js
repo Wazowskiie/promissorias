@@ -332,15 +332,17 @@ async function salvarEdicao() {
 
       const valorParcelaManual = parseFloat(document.getElementById("valorPago").value);
       const valorAlienacao = parseFloat(document.getElementById("valorAlienacao").value);
+      const dataAlienacao = document.getElementById("editDataAlienacao").value;
+      const dataPrimeiraParcela = document.getElementById("editPrimeiraParcela").value;
       const parcelas = gerarParcelas(
       novaPromissoria.id,
       valorTotal,
       qtdParcelas,
-      dataVencimento,
+      dataPrimeiraParcela,
       (valorParcelaManual && valorParcelaManual > 0) ? valorParcelaManual : null,
-      (valorAlienacao && valorAlienacao > 0) ? valorAlienacao : null
-    );
-
+      (valorAlienacao && valorAlienacao > 0) ? valorAlienacao : null,
+      dataAlienacao
+      );
       const { error: erroParcelas } = await supabaseClient.from("parcelas").insert(parcelas);
       if (erroParcelas) throw erroParcelas;
 
