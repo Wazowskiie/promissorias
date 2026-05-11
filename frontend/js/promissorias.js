@@ -331,7 +331,15 @@ async function salvarEdicao() {
       if (error) throw error;
 
       const valorParcelaManual = parseFloat(document.getElementById("valorPago").value);
-      const parcelas = gerarParcelas(novaPromissoria.id, valorTotal, qtdParcelas, dataVencimento, (valorParcelaManual && valorParcelaManual > 0) ? valorParcelaManual : null);
+      const valorAlienacao = parseFloat(document.getElementById("valorAlienacao").value);
+      const parcelas = gerarParcelas(
+      novaPromissoria.id,
+      valorTotal,
+      qtdParcelas,
+      dataVencimento,
+      (valorParcelaManual && valorParcelaManual > 0) ? valorParcelaManual : null,
+      (valorAlienacao && valorAlienacao > 0) ? valorAlienacao : null
+    );
 
       const { error: erroParcelas } = await supabaseClient.from("parcelas").insert(parcelas);
       if (erroParcelas) throw erroParcelas;
@@ -364,8 +372,7 @@ function abrirModalNova() {
 // =============================
 // GERAR PARCELAS
 // =============================
-function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraData, valorParcelaManual) {
-  // Se o usuário informou valor da parcela, usa esse; senão divide automaticamente
+function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraData, valorParcelaManual, valorAlienacao) {
   const valorBase = valorParcelaManual
     ? Number(valorParcelaManual)
     : Math.floor((valorTotal / qtdParcelas) * 100) / 100;
@@ -373,10 +380,21 @@ function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraData, val
   const parcelas = [];
   let soma = 0;
 
+  // Alienação/TCP como parcela 0
+  const valorAli = valorAlienacao ? Number(valorAlienacao) : valorBase;
+  parcelas.push({
+    promissoria_id: promissoriaId,
+    numero_parcela: 0,
+    valor: valorAli,
+    data_vencimento: primeiraData,
+    status: 'pendente'
+  });
+  soma += valorAli;
+
+  // Parcelas normais começam 1 mês depois
   for (let i = 1; i <= qtdParcelas; i++) {
     let valorParcela = valorBase;
 
-    // Só ajusta última parcela se estiver dividindo automaticamente
     if (!valorParcelaManual && i === qtdParcelas) {
       valorParcela = Number((valorTotal - soma).toFixed(2));
     }
