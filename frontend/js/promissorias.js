@@ -374,7 +374,7 @@ function abrirModalNova() {
 // =============================
 // GERAR PARCELAS
 // =============================
-function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraData, valorParcelaManual, valorAlienacao) {
+function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraParcela, valorParcelaManual, valorAlienacao, dataAlienacao) {
   const valorBase = valorParcelaManual
     ? Number(valorParcelaManual)
     : Math.floor((valorTotal / qtdParcelas) * 100) / 100;
@@ -382,18 +382,17 @@ function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraData, val
   const parcelas = [];
   let soma = 0;
 
-  // Alienação/TCP como parcela 0
+  // Alienação/TCP — usa a data própria dela
   const valorAli = valorAlienacao ? Number(valorAlienacao) : valorBase;
   parcelas.push({
     promissoria_id: promissoriaId,
     numero_parcela: 0,
     valor: valorAli,
-    data_vencimento: primeiraData,
+    data_vencimento: dataAlienacao || primeiraParcela,
     status: 'pendente'
   });
-  soma += valorAli;
 
-  // Parcelas normais começam 1 mês depois
+  // Parcelas normais a partir da data da primeira parcela
   for (let i = 1; i <= qtdParcelas; i++) {
     let valorParcela = valorBase;
 
@@ -403,8 +402,8 @@ function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraData, val
 
     soma += valorParcela;
 
-    const data = new Date(primeiraData + 'T00:00:00');
-    data.setMonth(data.getMonth() + i);
+    const data = new Date(primeiraParcela + 'T00:00:00');
+    data.setMonth(data.getMonth() + (i - 1));
 
     parcelas.push({
       promissoria_id: promissoriaId,
