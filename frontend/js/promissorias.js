@@ -121,7 +121,7 @@ function renderizarParcelas(parcelas) {
     return `
       <div class="parcela-item">
         <div class="parcela-info">
-          <div class="parcela-numero">Parcela ${index + 1}/${parcelas.length}</div>
+          <div class="parcela-numero">${p.numero_parcela === 0 ? 'Alienação/TCP' : `Parcela ${p.numero_parcela}/${parcelas.length - 1}`}</div>
           <div class="parcela-data">Vencimento: ${formatarData(p.data_vencimento)}</div>
           ${diasAtraso > 0 ? `<div class="atraso">${diasAtraso} dias em atraso</div>` : ''}
         </div>
