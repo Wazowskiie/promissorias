@@ -445,7 +445,7 @@ async function confirmarPagamentoParcela() {
 
     if (error) throw error;
 
-    alert("Parcela paga com sucesso!");
+    
     fecharPagamentoParcela();
 
     const promissoriaId = promissorias.find(p => p.id === promissoriaEditandoId)?.id;
