@@ -384,7 +384,7 @@ function gerarParcelas(promissoriaId, valorTotal, qtdParcelas, primeiraData, val
     soma += valorParcela;
 
     const data = new Date(primeiraData + 'T00:00:00');
-    data.setMonth(data.getMonth() + (i - 1));
+    data.setMonth(data.getMonth() + i);
 
     parcelas.push({
       promissoria_id: promissoriaId,
