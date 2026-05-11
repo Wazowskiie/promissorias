@@ -355,7 +355,7 @@ async function salvarEdicao() {
 
   } catch (err) {
     console.error("Erro real:", err);
-    alert("Erro ao salvar promissória");
+    
   }
 }
 
