@@ -270,6 +270,7 @@ function editarPromissoria(id) {
   document.getElementById('vendedor').value = promissoria.vendedor || '';
   document.getElementById('valorPago').value = promissoria.valor_pago || 0;
   document.getElementById('observacoes').value = promissoria.observacoes || '';
+  document.getElementById('editDataVencimento').value = promissoria.data_vencimento || '';
 
   document.getElementById('modalEditar').classList.remove('hidden');
 }
@@ -305,6 +306,7 @@ async function salvarEdicao() {
   const observacoes = document.getElementById("observacoes").value.trim();
   const dataVencimento = document.getElementById("editDataVencimento").value;
   const qtdParcelas = parseInt(document.getElementById("editQtdParcelas").value);
+  
 
   if (!cliente || !valorTotal || !dataVencimento || !qtdParcelas) {
     alert("Preencha todos os campos obrigatórios.");
@@ -369,6 +371,7 @@ function abrirModalNova() {
   document.getElementById('observacoes').value = '';
   document.getElementById('modalTitulo').textContent = 'Nova promissória';
   document.getElementById('modalEditar').classList.remove('hidden');
+  
 }
 
 // =============================
